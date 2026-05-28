@@ -31,6 +31,45 @@ workflows:
     artifacts:
       - ios/App/build/ios-simulator/*.zip
 
+  ios-unsigned-device:
+    name: Flag Rush unsigned iPhoneOS build
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      xcode: latest
+      node: latest
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Build web app and sync iOS
+        script: |
+          npm run build
+          npx cap sync ios
+      - name: Build unsigned iPhoneOS app
+        script: |
+          cd ios/App
+          xcodebuild \
+            -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            clean build
+
+          mkdir -p build/ios-unsigned/Payload
+          APP_PATH=$(find build/DerivedData/Build/Products -name "App.app" -type d | head -n 1)
+          cp -R "$APP_PATH" build/ios-unsigned/Payload/FlagRush.app
+          cd build/ios-unsigned
+          zip -qry FlagRush-unsigned.ipa Payload
+          cd ../..
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" build/ios-unsigned/FlagRush-unsigned.app.zip
+    artifacts:
+      - ios/App/build/ios-unsigned/*.ipa
+      - ios/App/build/ios-unsigned/*.zip
+
   ios-release:
     name: Flag Rush iOS App Store build
     instance_type: mac_mini_m2
