@@ -1,0 +1,6 @@
+android
+release
+node_modules
+dist
+.env.local
+.vercel
