@@ -1,4 +1,4 @@
-package com.tipobenjamin.flagquiz;
+package com.flagrush;
 
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;

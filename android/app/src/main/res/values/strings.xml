@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Flag Rush</string>
     <string name="title_activity_main">Flag Rush</string>
-    <string name="package_name">com.tipobenjamin.flagquiz</string>
-    <string name="custom_url_scheme">com.tipobenjamin.flagquiz</string>
+    <string name="package_name">com.flagrush</string>
+    <string name="custom_url_scheme">com.flagrush</string>
 </resources>
