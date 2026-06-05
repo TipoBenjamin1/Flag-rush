@@ -1,73 +1,124 @@
-# React + TypeScript + Vite
+# Flag Rush
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Flag Rush is a fast flag quiz game built with React, TypeScript, Vite, and Capacitor. The app ships as a web build and as native Android/iOS projects generated from the same source.
 
-Currently, two official plugins are available:
+Players choose a region or the full world map, answer timed flag questions, build streaks, earn XP, and track progress in a local profile.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Region modes for Europe, Asia, Africa, Americas, Oceania, and World.
+- Timed quiz rounds with streaks, XP rewards, ranks, and best attempts.
+- Local player profile with nickname, play time, cleared countries, and region stats.
+- Multilingual UI and country facts.
+- Custom app icon, splash assets, mode artwork, and responsive mobile-first UI.
+- Capacitor Android and iOS projects included.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- TypeScript
+- Vite
+- Capacitor Android and iOS
+- ESLint
+- `world-countries` for country metadata
+- Flag images loaded at runtime from FlagCDN
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Requirements:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 20 or newer
+- npm
+- Android Studio for Android builds
+- macOS with Xcode for local iOS builds, or Codemagic for cloud iOS builds
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies:
+
+```sh
+npm ci
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the web app locally:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm run dev
 ```
+
+Build the web app:
+
+```sh
+npm run build
+```
+
+Run lint:
+
+```sh
+npm run lint
+```
+
+Preview the production build:
+
+```sh
+npm run preview
+```
+
+## Android
+
+Sync the web build into the Android project:
+
+```sh
+npm run android:sync
+```
+
+Open Android Studio:
+
+```sh
+npm run android:open
+```
+
+The Android application id is `com.flagrush`.
+
+Release signing expects `android/keystore.properties` and signing material to stay local. Do not commit keystores, passwords, service account files, or generated release artifacts.
+
+## iOS
+
+Sync the web build into the iOS project:
+
+```sh
+npm run ios:sync
+```
+
+Open Xcode on macOS:
+
+```sh
+npm run ios:open
+```
+
+Codemagic workflows are defined in `codemagic.yaml`. See `IOS_CODEMAGIC.md` for details.
+
+The iOS bundle identifier is `com.flagrush`.
+
+## Repository Layout
+
+- `src/` - React application, gameplay logic, UI, facts, translations, and local assets.
+- `public/` - favicon and static browser assets.
+- `android/` - Capacitor Android project.
+- `ios/` - Capacitor iOS project.
+- `scripts/` - maintenance scripts.
+- `specs/` - product notes and implementation specs.
+
+## Privacy
+
+Flag Rush stores gameplay progress locally in the browser or app WebView. The project does not require a backend for the core game. Review `privacy-policy.html` before publishing a store build or public demo.
+
+## Assets and Attribution
+
+See `ASSET_PROVENANCE.md` for a summary of source, generated, and third-party assets. Keep that file current when replacing icons, screenshots, fonts, or external data sources.
+
+## Contributing
+
+Contributions are welcome. Start with `CONTRIBUTING.md`, run `npm run lint` and `npm run build`, and keep changes focused on the real Flag Rush app in this repository.
+
+## License
+
+MIT. See `LICENSE`.

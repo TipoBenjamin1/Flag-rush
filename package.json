@@ -1,7 +1,16 @@
 {
-  "name": "flag-quiz",
+  "name": "flag-rush",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "A fast React, TypeScript, Vite, and Capacitor flag quiz game.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TipoBenjamin1/Flag-rush.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TipoBenjamin1/Flag-rush/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

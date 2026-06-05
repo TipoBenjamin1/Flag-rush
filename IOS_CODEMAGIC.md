@@ -1,40 +1,54 @@
 # Flag Rush iOS / Codemagic
 
-## What is ready
+This project includes a Capacitor iOS app at `ios/App/App.xcodeproj` and Codemagic workflows in `codemagic.yaml`.
 
-- iOS Capacitor project: `ios/App/App.xcodeproj`
-- Bundle id: `com.tipobenjamin.flagquiz`
+## App Identity
+
 - App name: `Flag Rush`
-- iOS app icon and splash are set from the Flag Rush icon.
-- Codemagic config: `codemagic.yaml`
+- Bundle identifier: `com.flagrush`
+- Web output directory: `dist`
 
-## Codemagic workflows
+## Workflows
 
 ### `ios-simulator`
 
-Use this first. It does not need Apple signing and checks that the iOS project builds on a Mac.
+Use this first. It does not require Apple signing and checks that the iOS project builds on a macOS runner.
 
 Expected artifact:
 
 - `FlagRush-simulator.app.zip`
 
+### `ios-unsigned-device`
+
+Builds an unsigned iPhoneOS app artifact for inspection. This is not an installable App Store release.
+
+Expected artifacts:
+
+- `FlagRush-unsigned.ipa`
+- `FlagRush-unsigned.app.zip`
+
 ### `ios-release`
 
-Use this for a real App Store/TestFlight `.ipa`.
+Builds a signed App Store/TestFlight IPA.
 
-Before running it, configure iOS code signing in Codemagic:
+Before running it, configure iOS signing in Codemagic:
 
-- Apple Developer account connected to Codemagic
-- App Store Connect API key or Apple integration
-- iOS distribution certificate
-- App Store provisioning profile for `com.tipobenjamin.flagquiz`
+- Apple Developer account or App Store Connect integration.
+- iOS distribution certificate.
+- App Store provisioning profile for `com.flagrush`.
+- Required Codemagic environment groups or secure variables.
 
 Expected artifact:
 
 - `.ipa` in `build/ios/ipa/`
 
-## Important
+## Local Notes
 
-This folder is not currently a git repository. Codemagic normally builds from a connected Git repository, so push this project to GitHub/GitLab/Bitbucket first, then add that repository in Codemagic.
+Windows can build the web app and sync the Capacitor iOS project, but final local iOS builds require macOS and Xcode.
 
-Local Windows can prepare and sync the iOS project, but it cannot build the final iOS app because iOS builds require macOS/Xcode. Codemagic handles that part.
+```sh
+npm ci
+npm run ios:sync
+```
+
+Do not commit signing profiles, certificates, App Store Connect API keys, or generated IPA files.
