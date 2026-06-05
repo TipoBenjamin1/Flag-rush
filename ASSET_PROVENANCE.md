@@ -10,6 +10,8 @@ This file summarizes known asset and data sources for Flag Rush. Keep it updated
 
 Store listing assets such as a root-level `app-icon-512.png` or `feature-graphic.html` may be kept outside the first OSS commit unless they are intentionally added as release/listing materials.
 
+Final Google Play listing assets are tracked in `store-assets/google-play/`. The app icon is derived from the existing Flag Rush favicon asset, and the feature graphic is rendered from the tracked HTML source in that folder using existing mode artwork and CSS.
+
 If any branding or mode image is generated or commissioned, retain the prompt, source file, or license evidence outside the repository and summarize the source here.
 
 ## Fonts
