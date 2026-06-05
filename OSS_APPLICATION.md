@@ -34,8 +34,8 @@ I would use API credits for maintainer work: PR review, bug triage, TypeScript/R
 
 ## Anything Else
 
-The repository is being prepared carefully for public OSS use: secrets, signing files, build outputs, keystores, and release artifacts are excluded; contribution, security, roadmap, changelog, release notes, CI, and asset provenance files are included. The next goal is to publish a clean public repository that contributors can understand, run, and improve.
+The repository has been prepared and published carefully for public OSS use. Secrets, signing files, build outputs, keystores, and release artifacts are excluded; contribution, security, roadmap, changelog, release notes, CI, and asset provenance files are included. The `v0.1.0` release is published from a green CI commit so contributors can understand, run, and improve the project safely.
 
 Short form version:
 
-The repository is being prepared for clean public OSS use. Secrets, signing files, build outputs, keystores, and release artifacts are excluded, while contribution, security, roadmap, changelog, release notes, CI, and asset provenance docs are included so contributors can run and improve the project safely.
+The repository is published for clean public OSS use. Secrets, signing files, build outputs, keystores, and release artifacts are excluded, while contribution, security, roadmap, changelog, release notes, CI, and asset provenance docs are included. Release `v0.1.0` is published from a green CI commit.
