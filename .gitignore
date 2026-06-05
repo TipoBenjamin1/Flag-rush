@@ -13,6 +13,10 @@ dist-ssr
 release
 *.local
 
+# Local store listing drafts
+/app-icon-512.png
+/feature-graphic.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
