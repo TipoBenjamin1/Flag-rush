@@ -1,4 +1,4 @@
-import worldCountries from 'world-countries'
+import { countryNameReplacementMap as countryNameReplacementMapSource } from './countryFactNames'
 import { providedFactTranslations } from './providedFactTranslations'
 
 export type FactLanguage = 'ru' | 'en' | 'es' | 'fr' | 'de' | 'ro'
@@ -769,41 +769,17 @@ const factReplacementMap: Record<Exclude<FactLanguage, 'en'>, Array<[string, str
   ],
 }
 
-type FactWorldCountry = {
-  cca2?: string
-  name: { common: string }
-  translations?: Partial<Record<'rus' | 'spa' | 'fra' | 'deu' | 'ron', { common: string }>>
-}
-
-const worldCountryRows = worldCountries as FactWorldCountry[]
-
-const translationKeyByLanguage: Record<Exclude<FactLanguage, 'en'>, 'rus' | 'spa' | 'fra' | 'deu' | 'ron'> = {
-  ru: 'rus',
-  es: 'spa',
-  fr: 'fra',
-  de: 'deu',
-  ro: 'ron',
+function toReplacementPairs(items: readonly (readonly [string, string])[]) {
+  return items.map(([from, to]) => [from, to] as [string, string])
 }
 
 const countryNameReplacementMap: Record<Exclude<FactLanguage, 'en'>, Array<[string, string]>> = {
-  ru: [],
-  es: [],
-  fr: [],
-  de: [],
-  ro: [],
+  ru: toReplacementPairs(countryNameReplacementMapSource.ru),
+  es: toReplacementPairs(countryNameReplacementMapSource.es),
+  fr: toReplacementPairs(countryNameReplacementMapSource.fr),
+  de: toReplacementPairs(countryNameReplacementMapSource.de),
+  ro: toReplacementPairs(countryNameReplacementMapSource.ro),
 }
-
-worldCountryRows.forEach((country) => {
-  if (!country.cca2) return
-
-  ;(['ru', 'es', 'fr', 'de', 'ro'] as const).forEach((language) => {
-    const translatedName = country.translations?.[translationKeyByLanguage[language]]?.common
-
-    if (translatedName && translatedName !== country.name.common) {
-      countryNameReplacementMap[language].push([country.name.common, translatedName])
-    }
-  })
-})
 
 Object.values(countryNameReplacementMap).forEach((items) => {
   items.sort((first, second) => second[0].length - first[0].length)

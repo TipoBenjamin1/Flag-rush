@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
-import worldCountries from 'world-countries'
-import type { Country as WorldCountry } from 'world-countries'
 import appIcon from './assets/app-icon.png'
 import africaModeIcon from './assets/modes/africa.png'
 import americasModeIcon from './assets/modes/americas.png'
@@ -9,7 +7,7 @@ import asiaModeIcon from './assets/modes/asia.png'
 import europeModeIcon from './assets/modes/europe.png'
 import oceaniaModeIcon from './assets/modes/oceania.png'
 import worldModeIcon from './assets/modes/world.png'
-import { getProvidedCountryFacts } from './countryFacts'
+import { countryData } from './countryData'
 import './App.css'
 
 type Language = 'ru' | 'en' | 'es' | 'fr' | 'de' | 'ro'
@@ -18,6 +16,7 @@ type Region = 'Africa' | 'Americas' | 'Asia' | 'Europe' | 'Oceania'
 type ModeId = Region | 'world'
 type Screen = 'landing' | 'landingSettings' | 'howToPlay' | 'home' | 'modeSelect' | 'game' | 'profile' | 'settings' | 'gameSettings'
 type BlitzSeconds = 5 | 10 | 15
+type ProvidedCountryFactsGetter = (code: string, language: Language) => string[] | undefined
 
 type Country = {
   name: Record<Language, string>
@@ -76,6 +75,14 @@ const timeoutAnswerCode = '__timeout__'
 const blitzModes: BlitzSeconds[] = [5, 10, 15]
 const regions: Region[] = ['Europe', 'Asia', 'Africa', 'Americas', 'Oceania']
 const languageOptions: Language[] = ['en', 'ru', 'es', 'fr', 'de', 'ro']
+let providedCountryFactsPromise: Promise<ProvidedCountryFactsGetter> | undefined
+
+function loadProvidedCountryFacts() {
+  providedCountryFactsPromise ??= import('./countryFacts').then((module) => module.getProvidedCountryFacts as ProvidedCountryFactsGetter)
+
+  return providedCountryFactsPromise
+}
+
 const localeByLanguage: Record<Language, string> = {
   ru: 'ru-RU',
   en: 'en-US',
@@ -737,39 +744,23 @@ const copy = {
   },
 } satisfies Record<Language, typeof copyBase.en>
 
-const countries: Country[] = (worldCountries as WorldCountry[])
-  .filter((country) => {
-    return (
-      country.independent &&
-      country.cca2 &&
-      ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'].includes(country.region)
-    )
-  })
-  .map((country) => ({
-    name: {
-      ru: country.translations.rus?.common ?? country.name.common,
-      en: country.name.common,
-      es: country.translations.spa?.common ?? country.name.common,
-      fr: country.translations.fra?.common ?? country.name.common,
-      de: country.translations.deu?.common ?? country.name.common,
-      ro: country.translations.ron?.common ?? country.name.common,
-    },
-    code: country.cca2.toLowerCase(),
-    region: country.region as Region,
-    capital: country.capital ?? [],
-    subregion: country.subregion ?? '',
-    languages: Object.values(country.languages ?? {}),
-    currencies: Object.values(country.currencies ?? {}).map((currency) => currency.name),
-    area: country.area,
-    latlng: country.latlng,
-    cca3: country.cca3,
-    flagEmoji: country.flag,
-    phoneRoot: country.idd?.root ?? '',
-    landlocked: country.landlocked,
-    borders: country.borders ?? [],
-    unMember: country.unMember,
-  }))
-  .sort((first, second) => first.name.ru.localeCompare(second.name.ru, 'ru'))
+const countries: Country[] = countryData.map((country) => ({
+  name: { ...country.name },
+  code: country.code,
+  region: country.region as Region,
+  capital: [...country.capital],
+  subregion: country.subregion,
+  languages: [...country.languages],
+  currencies: [...country.currencies],
+  area: country.area,
+  latlng: [...country.latlng] as [number, number],
+  cca3: country.cca3,
+  flagEmoji: country.flagEmoji,
+  phoneRoot: country.phoneRoot,
+  landlocked: country.landlocked,
+  borders: [...country.borders],
+  unMember: country.unMember,
+}))
 
 const countriesByArea = [...countries].sort((first, second) => second.area - first.area)
 const areaRankByCode = new Map(countriesByArea.map((country, index) => [country.code, index + 1]))
@@ -1551,9 +1542,7 @@ function getNextFactIndex(countryCode: string) {
   return nextIndex
 }
 
-function buildCountryFactPool(country: Country, language: Language) {
-  const providedFacts = getProvidedCountryFacts(country.code, language)
-
+function buildCountryFactPool(country: Country, language: Language, providedFacts?: string[]) {
   if (providedFacts?.length) {
     return providedFacts
   }
@@ -1644,8 +1633,8 @@ function buildCountryFactPool(country: Country, language: Language) {
   return [...facts].filter(Boolean).slice(0, Math.max(3, facts.size))
 }
 
-function getCountryFact(country: Country, language: Language) {
-  const facts = buildCountryFactPool(country, language)
+function getCountryFact(country: Country, language: Language, providedFacts?: string[]) {
+  const facts = buildCountryFactPool(country, language, providedFacts)
   const factIndex = getNextFactIndex(country.code)
 
   return facts[factIndex % facts.length] ?? factCopy[language].independent(country.name[language])
@@ -1952,6 +1941,7 @@ function App() {
   const [attempts, setAttempts] = useState(0)
   const [lastXpReward, setLastXpReward] = useState(0)
   const [countryFact, setCountryFact] = useState<string | null>(null)
+  const countryFactRequestRef = useRef(0)
   const [flagMetrics, setFlagMetrics] = useState({ code: '', ratio: 1.5 })
   const [pauseMenuOpen, setPauseMenuOpen] = useState(false)
   const [profile, setProfile] = useState(loadProfile)
@@ -2151,6 +2141,30 @@ function App() {
     localStorage.setItem(profileKey, JSON.stringify(nextProfile))
   }
 
+  function clearCountryFact() {
+    countryFactRequestRef.current += 1
+    setCountryFact(null)
+  }
+
+  function queueCountryFact(country: Country, factLanguage: Language) {
+    const requestId = countryFactRequestRef.current + 1
+
+    countryFactRequestRef.current = requestId
+    setCountryFact(null)
+
+    void loadProvidedCountryFacts()
+      .then((getProvidedFacts) => {
+        if (countryFactRequestRef.current !== requestId) return
+
+        setCountryFact(getCountryFact(country, factLanguage, getProvidedFacts(country.code, factLanguage)))
+      })
+      .catch(() => {
+        if (countryFactRequestRef.current !== requestId) return
+
+        setCountryFact(getCountryFact(country, factLanguage))
+      })
+  }
+
   function getProfileAfterAnswer(
     currentProfile: PlayerProfile,
     country: Country | null,
@@ -2224,7 +2238,7 @@ function App() {
     setQuestion(null)
     setSelectedAnswerCode(null)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     setStreak(0)
     setAttempts(0)
     setScreen('modeSelect')
@@ -2245,7 +2259,7 @@ function App() {
     setStreak(0)
     setAttempts(nextAttempts)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     persistProfile(getProfileAfterAnswer(nextProfile, question?.correct ?? null, false, 0, 0))
   }
 
@@ -2271,7 +2285,7 @@ function App() {
     setQuestion(nextQuestion)
     setSelectedAnswerCode(null)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     setStreak(0)
     setAttempts(0)
     setScreen('game')
@@ -2286,7 +2300,7 @@ function App() {
     setQuestion(null)
     setSelectedAnswerCode(null)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     setStreak(0)
     setAttempts(0)
   }
@@ -2361,7 +2375,11 @@ function App() {
     setStreak(nextStreak)
     setAttempts(nextAttempts)
     setLastXpReward(isCorrect ? xpReward : 0)
-    setCountryFact(isCorrect ? getCountryFact(question.correct, language) : null)
+    if (isCorrect) {
+      queueCountryFact(question.correct, language)
+    } else {
+      clearCountryFact()
+    }
     persistProfile(
       getProfileAfterAnswer(profile, question.correct, isCorrect, nextStreak, xpReward, bestAttempts),
     )
@@ -2396,7 +2414,7 @@ function App() {
     setQuestion(nextRoundQuestion)
     setSelectedAnswerCode(null)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     armBlitzTimer(blitzSeconds, setTimeLeft, () => markTimeout(profile))
   }
 
@@ -2412,7 +2430,7 @@ function App() {
     setQuestion(nextQuestion)
     setSelectedAnswerCode(null)
     setLastXpReward(0)
-    setCountryFact(null)
+    clearCountryFact()
     setStreak(0)
     setAttempts(0)
     armBlitzTimer(blitzSeconds, setTimeLeft, () => markTimeout(profile))

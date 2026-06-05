@@ -20,7 +20,7 @@ Players choose a region or the full world map, answer timed flag questions, buil
 - Vite
 - Capacitor Android and iOS
 - ESLint
-- `world-countries` for country metadata
+- Generated country metadata derived from `world-countries`
 - Flag images loaded at runtime from FlagCDN
 
 ## Getting Started

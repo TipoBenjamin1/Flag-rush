@@ -20,7 +20,8 @@
     "android:sync": "npm run build && cap sync android",
     "android:open": "cap open android",
     "ios:sync": "npm run build && cap sync ios",
-    "ios:open": "cap open ios"
+    "ios:open": "cap open ios",
+    "generate:country-data": "node scripts/generate-country-data.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.4",
