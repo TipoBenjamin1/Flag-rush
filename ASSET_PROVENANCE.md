@@ -14,18 +14,17 @@ Final Google Play listing assets are tracked in `store-assets/google-play/`. The
 
 Google Play phone screenshots are tracked in `store-assets/google-play/screenshots/`. They are 1080x1920 24-bit PNG captures from the current local Flag Rush app UI.
 
-If any branding or mode image is generated or commissioned, retain the prompt, source file, or license evidence outside the repository and summarize the source here.
+If any branding or mode image is generated or commissioned, retain the prompt, source file, or license evidence outside the repository and summarize the source here. See `THIRD_PARTY_NOTICES.md` for third-party notices.
 
 ## Fonts
 
 - `src/assets/fonts/rubik-*.ttf` are bundled Rubik font files.
 - `src/assets/fonts/nunito-sans-*.ttf` are bundled Nunito Sans font files.
-
-Verify font licenses before redistribution and keep license notices with release materials when required.
+- Font license notes are summarized in `THIRD_PARTY_NOTICES.md`.
 
 ## Country and Flag Data
 
-- Country metadata comes from the `world-countries` npm package.
+- Country metadata comes from the `world-countries` npm package, which declares the Open Database License `ODbL-1.0`.
 - Runtime flag images are loaded from FlagCDN using country codes.
 - Curated country facts and translations live in `src/countryFacts.ts` and `src/providedFactTranslations.ts`.
 

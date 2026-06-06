@@ -113,7 +113,7 @@ Flag Rush stores gameplay progress locally in the browser or app WebView. The pr
 
 ## Assets and Attribution
 
-See `ASSET_PROVENANCE.md` for a summary of source, generated, and third-party assets. Keep that file current when replacing icons, screenshots, fonts, or external data sources.
+See `ASSET_PROVENANCE.md` and `THIRD_PARTY_NOTICES.md` for source, generated, and third-party asset notes. Keep those files current when replacing icons, screenshots, fonts, data sources, or externally loaded flag images.
 
 ## Contributing
 

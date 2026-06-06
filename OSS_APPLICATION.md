@@ -40,8 +40,8 @@ I would use API credits for maintainer work: PR review, bug triage, TypeScript/R
 
 ## Anything Else
 
-The repository has been prepared and published carefully for public OSS use, and the app is now live on Google Play: https://play.google.com/store/apps/details?id=com.flagrush. Secrets, signing files, build outputs, keystores, and release artifacts are excluded; contribution, security, roadmap, changelog, release notes, CI, and asset provenance files are included. The `v0.1.0` release is published from a green CI commit so contributors can understand, run, and improve the project safely.
+The repository has been prepared and published carefully for public OSS use, and the app is now live on Google Play: https://play.google.com/store/apps/details?id=com.flagrush. Secrets, signing files, build outputs, keystores, and release artifacts are excluded; contribution, code of conduct, security, roadmap, changelog, release notes, CI, Dependabot, CODEOWNERS, third-party notices, and asset provenance files are included. The `v0.1.0` release is published from a green CI commit so contributors can understand, run, and improve the project safely.
 
 Short form version:
 
-The repository is published for clean public OSS use, and Flag Rush is live on Google Play. Secrets, signing files, build outputs, keystores, and release artifacts are excluded, while contribution, security, roadmap, changelog, release notes, CI, and asset provenance docs are included.
+The repository is published for clean public OSS use, and Flag Rush is live on Google Play. Secrets, signing files, build outputs, keystores, and release artifacts are excluded, while contribution, conduct, security, roadmap, changelog, release notes, CI, Dependabot, and third-party notices are included.

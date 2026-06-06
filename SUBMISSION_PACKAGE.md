@@ -28,6 +28,7 @@ Recommended final checks before submission:
 - CI is green for the latest pushed commit.
 - Secrets, keystores, release artifacts, service-account files, and `.env.local` are not committed.
 - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `ROADMAP.md`, `CHANGELOG.md`, and release notes are present.
+- `CODE_OF_CONDUCT.md`, `.github/dependabot.yml`, `.github/CODEOWNERS`, and `THIRD_PARTY_NOTICES.md` are present.
 
 ## Google Play Listing
 

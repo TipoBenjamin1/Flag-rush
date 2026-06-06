@@ -67,7 +67,7 @@ I would use API credits for maintainer work: PR review, bug triage, TypeScript/R
 ```text
 Flag Rush is already live on Google Play: https://play.google.com/store/apps/details?id=com.flagrush
 
-The public repository is prepared carefully for OSS use. Secrets, signing files, build outputs, keystores, service-account files, APK/AAB/IPA outputs, and release artifacts are excluded. The project includes README, MIT license, contribution guide, security policy, roadmap, changelog, release notes, GitHub Actions CI, asset provenance, Google Play listing assets, and 1080x1920 screenshots captured from the real app.
+The public repository is prepared carefully for OSS use. Secrets, signing files, build outputs, keystores, service-account files, APK/AAB/IPA outputs, and release artifacts are excluded. The project includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, release notes, GitHub Actions CI, Dependabot, CODEOWNERS, third-party notices, asset provenance, Google Play listing assets, and 1080x1920 screenshots captured from the real app.
 
 The v0.1.0 release is published from a green CI commit, and the latest main branch also has green CI after adding the submission package and Google Play listing documentation.
 ```
@@ -75,7 +75,7 @@ The v0.1.0 release is published from a green CI commit, and the latest main bran
 ## Very Short Anything Else
 
 ```text
-Flag Rush is live on Google Play and the repository is ready for public OSS use. Secrets, signing files, release outputs, and private artifacts are excluded. The repo includes docs, CI, release notes, security/contribution files, asset provenance, Play Store assets, and screenshots from the real app.
+Flag Rush is live on Google Play and the repository is ready for public OSS use. Secrets, signing files, release outputs, and private artifacts are excluded. The repo includes docs, CI, Dependabot, release notes, security/contribution files, asset provenance, third-party notices, Play Store assets, and screenshots from the real app.
 ```
 
 ## Strongest Evidence To Mention
