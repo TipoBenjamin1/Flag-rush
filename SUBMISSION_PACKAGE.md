@@ -7,6 +7,7 @@ This file collects public, copy-ready material for submitting Flag Rush to open-
 ## Project Links
 
 - Repository: https://github.com/TipoBenjamin1/Flag-rush
+- Google Play: https://play.google.com/store/apps/details?id=com.flagrush
 - Release: https://github.com/TipoBenjamin1/Flag-rush/releases/tag/v0.1.0
 - Issues: https://github.com/TipoBenjamin1/Flag-rush/issues
 - License: MIT
@@ -20,12 +21,19 @@ Use `OSS_APPLICATION.md` as the full draft. Suggested short answers are also inc
 Recommended final checks before submission:
 
 - Public repository is visible and points to `https://github.com/TipoBenjamin1/Flag-rush`.
+- Google Play listing is live at `https://play.google.com/store/apps/details?id=com.flagrush`.
 - Release `v0.1.0` is published.
 - CI is green for the latest pushed commit.
 - Secrets, keystores, release artifacts, service-account files, and `.env.local` are not committed.
 - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `ROADMAP.md`, `CHANGELOG.md`, and release notes are present.
 
 ## Google Play Listing
+
+Public listing URL:
+
+```text
+https://play.google.com/store/apps/details?id=com.flagrush
+```
 
 App name:
 
