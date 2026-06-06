@@ -12,6 +12,8 @@ Store listing assets such as a root-level `app-icon-512.png` or `feature-graphic
 
 Final Google Play listing assets are tracked in `store-assets/google-play/`. The app icon is derived from the existing Flag Rush favicon asset, and the feature graphic is rendered from the tracked HTML source in that folder using existing mode artwork and CSS.
 
+Google Play phone screenshots are tracked in `store-assets/google-play/screenshots/`. They are 1080x1920 24-bit PNG captures from the current local Flag Rush app UI.
+
 If any branding or mode image is generated or commissioned, retain the prompt, source file, or license evidence outside the repository and summarize the source here.
 
 ## Fonts
