@@ -18,6 +18,8 @@ This file collects public, copy-ready material for submitting Flag Rush to open-
 
 Use `OSS_APPLICATION.md` as the full draft. Suggested short answers are also included there.
 
+Use `OPENAI_OSS_FORM_READY.md` as the final copy-paste version for the application form.
+
 Recommended final checks before submission:
 
 - Public repository is visible and points to `https://github.com/TipoBenjamin1/Flag-rush`.
